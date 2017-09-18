@@ -85,8 +85,10 @@ class Trix.CompositionController extends Trix.BasicObject
   reinstallAttachmentEditor: ->
     if @attachmentEditor
       attachment = @attachmentEditor.attachment
+      previousSelection = @attachmentEditor.getSelection()
       @uninstallAttachmentEditor()
       @installAttachmentEditorForAttachment(attachment)
+      @attachmentEditor.setSelection(previousSelection) if previousSelection
 
   editAttachmentCaption: ->
     @attachmentEditor?.editCaption()

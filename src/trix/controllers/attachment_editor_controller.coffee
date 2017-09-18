@@ -26,6 +26,16 @@ class Trix.AttachmentEditorController extends Trix.BasicObject
     undo() while undo = @undos.pop()
     @delegate?.didUninstallAttachmentEditor(this)
 
+  getSelection: ->
+    if @textarea
+      {selectionStart, selectionEnd} = @textarea
+      [selectionStart, selectionEnd]
+
+  setSelection: ([selectionStart, selectionEnd] = [0, 0]) ->
+    @editCaption() unless @textarea
+    @textarea.selectionStart = selectionStart
+    @textarea.selectionEnd = selectionEnd
+
   # Private
 
   savePendingCaption: ->
@@ -61,7 +71,7 @@ class Trix.AttachmentEditorController extends Trix.BasicObject
     undo: => @element.removeChild(removeButton)
 
   editCaption: undoable ->
-    textarea = makeElement
+    @textarea = textarea = makeElement
       tagName: "textarea"
       className: css.attachmentCaptionEditor
       attributes: placeholder: lang.captionPlaceholder
